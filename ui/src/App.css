@@ -1,0 +1,424 @@
+@reference "./index.css";
+
+@layer components {
+  .app-shell {
+    @apply grid min-h-screen grid-cols-1;
+  }
+
+  .sidebar {
+    @apply flex flex-col gap-5 border-b border-border/80 bg-card/70 p-4 backdrop-blur;
+    background-image:
+      radial-gradient(circle at top left, rgba(231, 181, 74, 0.16), transparent 36%),
+      linear-gradient(180deg, rgba(249, 245, 233, 0.96), rgba(242, 236, 217, 0.94));
+  }
+
+  .workspace {
+    @apply flex flex-col gap-5 p-4;
+  }
+
+  .workspace-main {
+    @apply grid min-h-0 grid-cols-1 gap-5;
+  }
+
+  .editor-column,
+  .inspector-column {
+    @apply flex min-h-0 flex-col gap-5;
+  }
+
+  .panel {
+    @apply rounded-none border border-border/80 bg-card/95 shadow-[0_24px_60px_rgba(30,43,28,0.12),0_10px_24px_rgba(30,43,28,0.08)] backdrop-blur;
+  }
+
+  .panel-hero {
+    @apply flex flex-col justify-between gap-7 p-7 text-primary-foreground;
+    background-image:
+      radial-gradient(circle at top right, rgba(229, 180, 74, 0.28), transparent 28%),
+      radial-gradient(circle at bottom left, rgba(57, 120, 83, 0.24), transparent 34%),
+      linear-gradient(135deg, #123524 0%, #204832 55%, #355d43 100%);
+  }
+
+  .panel-hero h1 {
+    @apply mt-2 max-w-4xl text-3xl font-semibold tracking-tight text-primary-foreground;
+  }
+
+  .hero-metrics {
+    @apply grid grid-cols-1 gap-3;
+  }
+
+  .metric-card,
+  .summary-card {
+    @apply flex flex-col gap-2 rounded-none border p-4;
+  }
+
+  .metric-card {
+    @apply border-white/15 bg-white/10;
+  }
+
+  .summary-card {
+    @apply border-border/70 bg-muted/80;
+  }
+
+  .metric-card strong,
+  .summary-card strong {
+    @apply text-3xl font-semibold leading-none;
+  }
+
+  .metric-label,
+  .summary-card span,
+  .field span,
+  .checkbox-field span,
+  .field-label,
+  .eyebrow {
+    @apply text-[11px] uppercase tracking-[0.18em];
+  }
+
+  .metric-label {
+    @apply text-primary-foreground/75;
+  }
+
+  .eyebrow {
+    @apply text-muted-foreground;
+  }
+
+  .panel-hero .eyebrow {
+    @apply text-primary-foreground/70;
+  }
+
+  .panel-header {
+    @apply flex flex-col gap-4;
+  }
+
+  .panel-header h2 {
+    @apply mt-1 text-xl font-semibold tracking-tight;
+  }
+
+  .panel-actions {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .panel-note {
+    @apply max-w-xs text-sm text-muted-foreground;
+  }
+
+  .sidebar-section,
+  .graph-panel,
+  .panel-contrast,
+  .verilog-panel {
+    @apply p-6;
+  }
+
+  .panel-contrast {
+    background-image:
+      radial-gradient(circle at top right, rgba(216, 79, 67, 0.08), transparent 26%),
+      linear-gradient(180deg, #fcfbf4 0%, #f6f2e4 100%);
+  }
+
+  .graph-panel {
+    @apply min-h-[42rem];
+  }
+
+  .graph-canvas {
+    @apply mt-5 h-[36rem] overflow-hidden rounded-none border border-border/70 bg-background/55;
+  }
+
+  .form-grid,
+  .editor-card,
+  .signal-edit-form,
+  .signal-type-picker,
+  .editor-subsection,
+  .builder-stack,
+  .state-list,
+  .list-stack,
+  .issue-list {
+    @apply flex flex-col gap-3;
+  }
+
+  .field {
+    @apply flex flex-col gap-2;
+  }
+
+  .field span,
+  .checkbox-field span,
+  .field-label {
+    @apply text-muted-foreground;
+  }
+
+  .field-row {
+    @apply grid grid-cols-1 gap-3;
+  }
+
+  .field-row-tight {
+    @apply grid-cols-1;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    @apply flex min-h-11 w-full rounded-none border border-input bg-background/80 px-3 py-2 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60;
+  }
+
+  .field select {
+    @apply pr-10;
+    background-image:
+      linear-gradient(45deg, transparent 50%, rgba(23, 39, 28, 0.6) 50%),
+      linear-gradient(135deg, rgba(23, 39, 28, 0.6) 50%, transparent 50%);
+    background-position:
+      calc(100% - 18px) calc(50% - 2px),
+      calc(100% - 12px) calc(50% - 2px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+  }
+
+  .form-error,
+  .field-hint,
+  .empty-copy,
+  .error-text,
+  .issue-meta,
+  .request-meta-card p {
+    @apply text-sm;
+  }
+
+  .form-error,
+  .error-text {
+    @apply text-destructive;
+  }
+
+  .field-hint,
+  .empty-copy,
+  .issue-meta,
+  .request-meta-card p {
+    @apply text-muted-foreground;
+  }
+
+  .segmented-group {
+    @apply grid grid-cols-1 gap-2;
+  }
+
+  .segment-button {
+    @apply rounded-xl border border-border bg-background/70 px-3 py-2 text-sm font-medium text-foreground transition hover:-translate-y-0.5 hover:bg-accent/10;
+  }
+
+  .segment-button.is-active {
+    @apply border-accent/60 bg-accent/15 shadow-[0_10px_20px_rgba(229,180,74,0.16)];
+  }
+
+  .builder-card,
+  .editor-card,
+  .issue-card,
+  .list-item,
+  .request-meta-card {
+    @apply rounded-none border border-border/70 bg-background/70 p-4;
+  }
+
+  .builder-grid {
+    @apply grid grid-cols-1 gap-3;
+  }
+
+  .inline-code,
+  .verilog-code,
+  .error-boundary-message {
+    @apply font-mono;
+  }
+
+  .inline-code {
+    @apply inline-flex min-h-11 items-center rounded-none bg-muted px-3 text-sm text-foreground;
+  }
+
+  .primary-button,
+  .ghost-button,
+  .state-chip {
+    @apply inline-flex items-center justify-center gap-2 rounded-none border text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .primary-button,
+  .ghost-button {
+    @apply cursor-pointer px-4 py-2.5;
+  }
+
+  .primary-button {
+    @apply border-transparent bg-primary text-primary-foreground shadow-sm hover:bg-primary/90;
+  }
+
+  .ghost-button {
+    @apply border-border bg-transparent text-foreground hover:bg-accent/10;
+  }
+
+  .compact-button {
+    @apply h-9 rounded-none px-3 py-2 text-sm;
+  }
+
+  .danger-button {
+    @apply border-destructive/20 text-destructive hover:bg-destructive/10;
+  }
+
+  .state-chip {
+    @apply w-full cursor-pointer justify-between bg-background/70 px-4 py-3 text-left text-foreground hover:-translate-y-0.5;
+  }
+
+  .state-chip small {
+    @apply text-[11px] uppercase tracking-[0.14em] text-muted-foreground;
+  }
+
+  .state-chip.is-selected {
+    @apply border-transparent bg-primary text-primary-foreground;
+  }
+
+  .list-item {
+    @apply flex flex-col gap-4;
+  }
+
+  .inline-actions,
+  .editor-title-row,
+  .issue-header,
+  .checkbox-field {
+    @apply flex flex-wrap items-center gap-3;
+  }
+
+  .editor-title-row,
+  .issue-header {
+    @apply justify-between;
+  }
+
+  .checkbox-field input {
+    @apply h-4 w-4 rounded border-input text-primary focus:ring-ring/60;
+  }
+
+  .summary-grid {
+    @apply mt-5 grid grid-cols-1 gap-3;
+  }
+
+  .issue-section {
+    @apply mt-5;
+  }
+
+  .issue-header span,
+  .status-badge {
+    @apply inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-[11px] uppercase tracking-[0.16em] text-muted-foreground;
+  }
+
+  .verilog-panel {
+    @apply min-h-0;
+  }
+
+  .monaco-shell {
+    @apply mt-5 overflow-hidden rounded-none border border-border/70 bg-[#11161c];
+  }
+
+  .verilog-code {
+    @apply mt-5 min-h-[18rem] max-h-[26rem] overflow-auto rounded-none bg-[#151c17] p-5 text-sm leading-6 text-[#d6efd9];
+  }
+
+  .simulation-editor {
+    @apply min-h-[20rem];
+  }
+
+  .simulation-output {
+    @apply m-0 min-h-[10rem] max-h-[17.5rem];
+  }
+
+  .error-boundary-shell {
+    @apply grid min-h-screen place-items-center p-6;
+  }
+
+  .error-boundary-card {
+    @apply w-full max-w-2xl rounded-none border border-destructive/15 bg-card/95 p-7 shadow-[0_24px_60px_rgba(30,43,28,0.12),0_10px_24px_rgba(30,43,28,0.08)];
+    background-image:
+      radial-gradient(circle at top right, rgba(216, 79, 67, 0.12), transparent 28%);
+  }
+
+  .error-boundary-card h1 {
+    @apply mb-3 mt-2 text-3xl font-semibold tracking-tight;
+  }
+
+  .error-boundary-copy {
+    @apply text-muted-foreground;
+  }
+
+  .error-boundary-message {
+    @apply my-5 overflow-auto rounded-none bg-[#151c17] p-4 text-sm leading-6 text-[#d6efd9];
+  }
+}
+
+.issue-card p,
+.request-meta-card p,
+.field-hint,
+.empty-copy,
+.error-text,
+.inline-code,
+.monaco-shell,
+.verilog-code,
+.error-boundary-message {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (min-width: 640px) {
+  .hero-metrics,
+  .summary-grid {
+    @apply grid-cols-3;
+  }
+
+  .segmented-group {
+    @apply grid-cols-2;
+  }
+}
+
+@media (min-width: 768px) {
+  .panel-header {
+    @apply flex-row items-start justify-between;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr 7.5rem;
+  }
+
+  .field-row-tight {
+    grid-template-columns: 7.5rem;
+  }
+
+  .builder-grid {
+    @apply grid-cols-2;
+  }
+
+  .list-item {
+    @apply flex-row items-center justify-between;
+  }
+}
+
+@media (min-width: 1024px) {
+  .panel-hero {
+    @apply flex-row;
+  }
+
+  .panel-hero h1 {
+    @apply text-4xl;
+  }
+
+  .hero-metrics {
+    min-width: 24rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .app-shell {
+    grid-template-columns: 22rem minmax(0, 1fr);
+  }
+
+  .sidebar {
+    @apply border-r border-b-0 p-5;
+  }
+
+  .workspace {
+    @apply p-6;
+  }
+
+  .segmented-group {
+    @apply grid-cols-5;
+  }
+}
+
+@media (min-width: 1536px) {
+  .workspace-main {
+    grid-template-columns: minmax(0, 1.4fr) minmax(22rem, 0.8fr);
+  }
+}

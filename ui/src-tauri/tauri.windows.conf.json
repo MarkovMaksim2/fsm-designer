@@ -1,0 +1,11 @@
+{
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis"
+    ],
+    "resources": [
+      "bin/fsm-backend.exe"
+    ]
+  }
+}
