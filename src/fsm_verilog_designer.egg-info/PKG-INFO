@@ -1,0 +1,380 @@
+Metadata-Version: 2.4
+Name: fsm-verilog-designer
+Version: 0.2.0
+Summary: FSM-based Verilog generation, analysis and visualization toolkit
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi<1.0,>=0.115
+Requires-Dist: pydantic<3.0,>=2.8
+Requires-Dist: pyverilog<2.0,>=1.3.0
+Requires-Dist: uvicorn<1.0,>=0.30
+Provides-Extra: dev
+Requires-Dist: httpx<1.0,>=0.27; extra == "dev"
+Requires-Dist: pytest<9.0,>=8.0; extra == "dev"
+Requires-Dist: ruff<1.0,>=0.6; extra == "dev"
+
+# 🧠 FSM-Verilog Designer
+
+## 📌 Описание проекта
+
+FSM-Verilog Designer — это программное средство для **автоматизированного проектирования цифровых устройств на ПЛИС**, которое:
+
+* генерирует **Verilog-код на основе конечных автоматов (FSM)**
+* анализирует и **парсит существующий Verilog-код**
+* визуализирует структуру и поведение схем
+* выполняет **проверки корректности и безопасности**
+
+Главная цель — предоставить **удобный инструмент проектирования цифровых устройств**, который объединяет:
+
+* абстрактное моделирование (FSM)
+* генерацию HDL-кода
+* анализ и валидацию
+
+---
+
+# 🚀 Основные возможности
+
+### 🔹 Генерация Verilog
+
+* создание Verilog-модулей из FSM
+* поддержка:
+
+  * Moore / Mealy автоматов
+  * reset логики
+  * синхронной логики (`always_ff`)
+
+### 🔹 Парсинг Verilog
+
+* чтение существующих `.v/.sv` файлов
+* извлечение:
+
+  * состояний
+  * переходов
+  * сигналов
+* восстановление FSM из кода
+
+### 🔹 Визуализация
+
+* граф состояний (FSM graph)
+* отображение переходов
+* (в перспективе) симуляция событий
+
+### 🔹 Анализ и проверки
+
+* обнаружение:
+
+  * dead states
+  * unreachable states
+  * конфликтов логики
+* базовая проверка корректности
+
+---
+
+# 🏗️ Архитектура системы
+
+## Общая схема
+
+```
+            ┌──────────────────────┐
+            │       UI Layer       │
+            │ (Web / Desktop CLI) │
+            └─────────┬────────────┘
+                      │
+        ┌─────────────┼─────────────┐
+        │             │             │
+        ▼             ▼             ▼
+┌────────────┐ ┌────────────┐ ┌──────────────┐
+│ FSM Editor │ │ Verilog    │ │ Visualization│
+│ / Builder  │ │ Generator  │ │ Engine       │
+└─────┬──────┘ └─────┬──────┘ └─────┬────────┘
+      │              │              │
+      ▼              ▼              ▼
+┌────────────┐ ┌────────────┐ ┌──────────────┐
+│ FSM Core   │ │ Verilog    │ │ Analysis     │
+│ Model      │ │ Parser     │ │ Engine       │
+└─────┬──────┘ └─────┬──────┘ └─────┬────────┘
+      │              │              │
+      └──────┬───────┴───────┬──────┘
+             ▼               ▼
+        ┌────────────┐ ┌──────────────┐
+        │ Code Gen   │ │ Validation   │
+        │ Engine     │ │ Engine       │
+        └────────────┘ └──────────────┘
+```
+
+---
+
+# 🧩 Основные модули
+
+## 1. FSM Core
+
+### 📌 Назначение
+
+Центральная модель системы.
+
+### 📦 Структура
+
+```python
+class FSM:
+    states: List[State]
+    transitions: List[Transition]
+    inputs: List[Signal]
+    outputs: List[Signal]
+    reset_state: State
+```
+
+### 🔧 Функции
+
+* хранение FSM
+* валидация структуры
+* экспорт/импорт
+
+---
+
+## 2. FSM Builder
+
+### 📌 Назначение
+
+Создание FSM пользователем
+
+### 🔧 Функции
+
+* добавление состояний
+* добавление переходов
+* задание условий
+
+---
+
+## 3. Verilog Generator
+
+### 📌 Назначение
+
+Генерация HDL-кода
+
+### 🔧 Функции
+
+* генерация:
+
+  * `always_ff`
+  * `case` по состояниям
+* кодирование состояний:
+
+  * binary
+  * one-hot
+
+### 📄 Пример
+
+```verilog
+always_ff @(posedge clk or posedge reset) begin
+  if (reset)
+    state <= IDLE;
+  else begin
+    case (state)
+      IDLE: state <= NEXT;
+    endcase
+  end
+end
+```
+
+---
+
+## 4. Verilog Parser
+
+### 📌 Назначение
+
+Чтение существующего Verilog
+
+### 🔧 Функции
+
+* парсинг:
+
+  * always блоков
+  * case конструкций
+* восстановление FSM
+
+### ⚠️ Сложность
+
+* event-driven модель
+* nonblocking assignments (`<=`)
+
+---
+
+## 5. Analysis Engine
+
+### 📌 Назначение
+
+Проверка корректности
+
+### 🔧 Функции
+
+* поиск:
+
+  * dead states
+  * unreachable states
+* проверка переходов
+* базовая безопасность
+
+---
+
+## 6. Visualization Engine
+
+### 📌 Назначение
+
+Отображение FSM
+
+### 🔧 Функции
+
+* построение графа
+* отображение переходов
+
+---
+
+## 7. Validation Engine
+
+### 📌 Назначение
+
+Проверка перед генерацией
+
+### 🔧 Функции
+
+* корректность FSM
+* полнота переходов
+
+---
+
+# 🎯 Use Cases
+
+## 1. Генерация FSM
+
+**Пользователь:**
+
+* задаёт состояния и переходы
+* получает Verilog код
+
+## 2. Анализ существующего Verilog
+
+**Пользователь:**
+
+* загружает `.v` файл
+* получает FSM + граф
+
+## 3. Проверка схемы
+
+**Пользователь:**
+
+* получает список ошибок
+* рекомендации
+
+## 4. Визуализация
+
+**Пользователь:**
+
+* видит FSM как граф
+
+---
+
+# 🛠️ Технологический стек
+
+## Backend
+
+* Python / Go (рекомендуется Python для старта)
+* FastAPI (если web)
+* ANTLR / PyVerilog (парсинг Verilog)
+
+## Frontend
+
+* React / Vue
+* D3.js (графы)
+
+## Visualization
+
+* Graphviz / NetworkX
+
+## Parsing
+
+* PyVerilog (лучший вариант)
+* или кастомный парсер
+
+## Dev Tools
+
+* Docker
+* pytest
+
+---
+
+# 📂 Структура проекта
+
+```
+fsm-verilog-designer/
+│
+├── core/
+│   ├── fsm.py
+│   ├── state.py
+│   └── transition.py
+│
+├── generator/
+│   └── verilog_generator.py
+│
+├── parser/
+│   └── verilog_parser.py
+│
+├── analysis/
+│   └── analyzer.py
+│
+├── visualization/
+│   └── graph_builder.py
+│
+├── api/
+│   └── main.py
+│
+├── tests/
+│
+└── README.md
+```
+
+---
+
+# ⚙️ Roadmap
+
+## MVP
+
+* FSM модель
+* генерация Verilog
+* базовая визуализация
+
+## v1
+
+* парсер Verilog
+* анализ FSM
+
+## v2
+
+* UI
+* интерактивный редактор
+
+## v3
+
+* симуляция
+* event queue визуализация
+
+---
+
+# 💡 Возможные улучшения
+
+* интеграция с LLM (генерация FSM)
+* security анализ (как SecFSM)
+* экспорт в FPGA toolchains
+
+---
+
+# 📌 Итог
+
+Проект объединяет:
+
+* моделирование FSM
+* генерацию Verilog
+* анализ HDL
+
+👉 Это делает его полноценным инструментом уровня EDA.
+
+---
